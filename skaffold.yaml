@@ -1,0 +1,18 @@
+apiVersion: skaffold/v4beta3
+kind: Config
+
+manifests:
+  rawYaml:
+      - ./infra/k8s/*
+build:
+  local:
+    push: false      
+  artifacts: 
+    - image: kunaljk/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'   #check which files need to check 
+            dest: .               # check file and throw into container
