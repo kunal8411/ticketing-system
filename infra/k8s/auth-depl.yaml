@@ -5,12 +5,12 @@ metadata:
 spec: 
   replicas: 1
   selector:
-    matchLabels:
+    matchLabels:  # how deployments will fiind the pods
       app: auth
   template:
     metadata: 
       labels:
-        app: auth
+        app: auth   #this lable applied to pod, pod name will be this 
     spec:
       containers: 
         - name: auth
@@ -30,7 +30,7 @@ metadata:
   name: auth-srv
 spec:
   selector: 
-    app: auth
+    app: auth   #which pod governs access to, find pod with label of auth
   ports:
     - name: auth
       protocol: TCP
