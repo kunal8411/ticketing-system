@@ -6,7 +6,7 @@ manifests:
       - ./infra/k8s/*
 build:
   local:
-    push: false      
+    push: false      # whenever we create image dont push the image on the dockerhub
   artifacts: 
     - image: kunaljk/auth
       context: auth
