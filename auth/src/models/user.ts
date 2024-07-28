@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Password } from "../services/password";
 
 //interface to create new user everytime
 interface UserAttrs {
@@ -7,16 +8,16 @@ interface UserAttrs {
 }
 
 //interface to describe the user Model
-interface UserModel extends mongoose.Model<UserDoc>{
-    build(attr:UserAttrs):UserDoc
+interface UserModel extends mongoose.Model<UserDoc> {
+  build(attr: UserAttrs): UserDoc;
 }
 
 // interface that describes the properties thsat user document returns
-interface UserDoc extends mongoose.Document{
-    email:string;
-    password:string
-    createdAt?:string
-    updatedAt?:string
+interface UserDoc extends mongoose.Document {
+  email: string;
+  password: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 const userSchema = new mongoose.Schema({
@@ -29,20 +30,23 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 });
-userSchema.statics.buid = (attr: UserAttrs) => {
-  return new User(attr);
+// everytime this pre hool will gets calles by mongoose
+userSchema.pre("save", async function (done) {
+  if (this.isModified("password")) {
+    const hashed = await Password.toHash(this.get("password"));
+    this.set("password", hashed);
+  }
+  done();
+});
+
+userSchema.statics.build = (attrs: UserAttrs) => {
+  return new User(attrs);
 };
 
 // angle bracket syntax is generic syntax in typescript
 const User = mongoose.model<UserDoc, UserModel>("User", userSchema);
 
-const user = User.build({
-    email:'dfasf',
-    password:'dsfas'
-})
-
-export {User}
-
+export { User };
 
 // ************
 // everytime we create user use this function so we wil ladd type checking for typescript inside this
