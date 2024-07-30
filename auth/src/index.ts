@@ -29,7 +29,7 @@ app.use(signInRouter);
 app.use(signOutRouter);
 app.use(signUpRouter);
 
-app.use(errorHandler);
+app.use(errorHandler); //this middleware applicable for each route
 
 const start = async () => {
   if (!process.env.JWT_KEY) {

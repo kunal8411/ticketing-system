@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema(
     },
   }
 );
-// everytime this pre hool will gets calles by mongoose
+// everytime this pre hook will gets calles by mongoose
 userSchema.pre("save", async function (done) {
   if (this.isModified("password")) {
     const hashed = await Password.toHash(this.get("password"));

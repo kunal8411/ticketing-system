@@ -30,7 +30,7 @@ router.post(
     if (existingUser) {
       throw new BadRequestError("Email already in use");
     }
-
+    // build method return new User()  for typescript check we have used this
     const user = User.build({ email, password });
 
     await user.save();
@@ -45,7 +45,7 @@ router.post(
     req.session = {
       jwt: jsonWebToken,
     };
-    return res.status(200).send({ Message: user });
+    return res.status(200).send( user );
   }
 );
 
