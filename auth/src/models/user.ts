@@ -20,16 +20,28 @@ interface UserDoc extends mongoose.Document {
   updatedAt?: string;
 }
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String, //capital S in the String because mongodb has its own constructor
-    required: true,
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String, //capital S in the String because mongodb has its own constructor
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-  password: {
-    type: String,
-    required: true,
-  },
-});
+  {
+    toJSON: {
+      transform(doc, ret) {
+        ret.id= ret._id
+        delete ret._id
+        delete ret.password;  //whenever we return the user schme to user e.g. after creating user we return user then password will not be in return of the user
+        delete ret.__v
+      },
+    },
+  }
+);
 // everytime this pre hool will gets calles by mongoose
 userSchema.pre("save", async function (done) {
   if (this.isModified("password")) {
