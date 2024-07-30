@@ -61,7 +61,7 @@ const User = mongoose.model<UserDoc, UserModel>("User", userSchema);
 export { User };
 
 // ************
-// everytime we create user use this function so we wil ladd type checking for typescript inside this
+// everytime we create user use this function so we will add type checking for typescript inside this
 // we can use the same also but for this approach we need to export 2 seperate function instead we need to pass single USER
 // const buildUser = (attr: UserAttrs) => {
 //   return new User(attr);
