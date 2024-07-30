@@ -5,7 +5,6 @@ export class DatabaseConnectionError extends CustomError {
   error = "error connection to Database!";
   constructor() {
     // will not send this to FE, just for backend logs
-
     super("Error connection to Database!");
 
     // because we are exporting built in class

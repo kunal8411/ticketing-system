@@ -32,22 +32,20 @@ router.post(
     }
 
     const user = User.build({ email, password });
-    
+
     await user.save();
 
     //generate jwt
-    const jsonWebToken = jwt.sign({ id: user.id, email: user.email }, "asdf");
+    // process.env.JWT_KEY!, !=> tells the TS that we are sure that we already checked the JWT_KEY in the index.ts so we are 100% confident that this will not be null.
+    const jsonWebToken = jwt.sign(
+      { id: user.id, email: user.email },
+      process.env.JWT_KEY!
+    );
     //store in the cookie session , to use cookie session in the documents they mentioned to add in the req.session.['key]
     req.session = {
       jwt: jsonWebToken,
     };
     return res.status(200).send({ Message: user });
-
-    // throw new DatabaseConnectionError();
-
-    // throw new NotFoundError()
-
-    // res.send({});
   }
 );
 

@@ -10,14 +10,14 @@ import { signUpRouter } from "./routes/signup";
 import { errorHandler } from "./middlewares/error-handler";
 import { NotFoundError } from "./errors/not-found-error";
 const app = express();
-app.set('trust proxy', true)
+app.set("trust proxy", true);
 app.use(json());
 app.use(
   cookieSession({
-    signed:false, //because we are not encrypting the cookie
-    secure:true
+    signed: false, //because we are not encrypting the cookie
+    secure: true,
   })
-)
+);
 
 // with async keyword we cant directly throw error we need to use next while throwing error
 // app.all("*", async (req, res, next) => {
@@ -32,10 +32,13 @@ app.use(signUpRouter);
 app.use(errorHandler);
 
 const start = async () => {
+  if (!process.env.JWT_KEY) {
+    throw new Error("JWT_KEY must be defined");
+  }
   try {
     // auth-mongo-srv is the service to connect to the auth-mongo-depl deployment and then to docker file of mongo
     await mongoose.connect("mongodb://auth-mongo-srv:27017/auth");
-    console.log("Connected to Mongodb")
+    console.log("Connected to Mongodb");
   } catch (error) {
     console.log("Error connecting to Mongodb");
   }

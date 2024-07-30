@@ -15,6 +15,12 @@ spec:
       containers: 
         - name: auth
           image: kunaljk/auth       
+          env: 
+            - name: JWT_KEY #created this using $kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asfd
+              valueFrom: 
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
 
 
 
