@@ -16,3 +16,11 @@ build:
         manual:
           - src: 'src/**/*.ts'   #check which files need to check 
             dest: .               # check file and throw into container
+    - image: kunaljk/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.js'   #check which files need to check 
+            dest: .               # check file and throw into container
