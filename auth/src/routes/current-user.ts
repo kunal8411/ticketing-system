@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 
 const router = express.Router();
 
-import { currentUser } from "../middlewares/current-user";
+import { currentUser } from "@kkticketing01/common";
 
 //check if current user is logged in or not i.e. authentication
 router.get(
