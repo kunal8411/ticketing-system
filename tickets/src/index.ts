@@ -3,11 +3,8 @@ import "express-async-errors";
 import { json } from "body-parser";
 import mongoose from "mongoose";
 import cookieSession from "cookie-session";
-import { currentUserRouter } from "./routes/current-user";
-import { signInRouter } from "./routes/signin";
-import { signOutRouter } from "./routes/signout";
-import { signUpRouter } from "./routes/signup";
-import { errorHandler,NotFoundError } from "@kkticketing01/common";
+
+import { errorHandler } from "@kkticketing01/common";
 const app = express();
 app.set("trust proxy", true);
 app.use(json());
@@ -18,15 +15,6 @@ app.use(
   })
 );
 
-// with async keyword we cant directly throw error we need to use next while throwing error
-// app.all("*", async (req, res, next) => {
-//   throw new NotFoundError();
-// });
-
-app.use(currentUserRouter);
-app.use(signInRouter);
-app.use(signOutRouter);
-app.use(signUpRouter);
 
 app.use(errorHandler); //this middleware applicable for each route
 
@@ -38,7 +26,7 @@ const start = async () => {
     throw new Error("MONGO_URI must be defined");
   }
   try {
-    // auth-mongo-srv is the service to connect to the auth-mongo-depl deployment and then to docker file of mongo
+    // tickets-mongo-srv is the service to connect to the tickets-mongo-depl deployment and then to docker file of mongo
     await mongoose.connect(process.env.MONGO_URI);
     console.log("Connected to Mongodb");
   } catch (error) {

@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-depl
+  name: tickets-depl
 spec: 
   replicas: 1
   selector:
     matchLabels:  # how deployments will fiind the pods
-      app: auth
+      app: tickets
   template:
     metadata: 
       labels:
-        app: auth   #this lable applied to pod, pod name will be this 
+        app: tickets   #this lable applied to pod, pod name will be this 
     spec:
       containers: 
-        - name: auth
-          image: kunaljk/auth       
+        - name: tickets
+          image: kunaljk/tickets       
           env: 
             - name: MONGO_URI
-              value: 'mongodb://auth-mongo-srv:27017/auth'
+              value: 'mongodb://tickets-mongo-srv:27017/tickets'
             - name: JWT_KEY #created this using $kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asfd
               valueFrom: 
                 secretKeyRef:
@@ -35,12 +35,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-srv
+  name: tickets-srv
 spec:
   selector: 
-    app: auth   #which pod governs access to, find pod with label of auth
+    app: tickets   #which pod governs access to, find pod with label of tickets
   ports:
-    - name: auth
+    - name: tickets
       protocol: TCP
       port: 3000
       targetPort: 3000

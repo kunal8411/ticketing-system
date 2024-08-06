@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: tickets-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tickets-mongo
+  template:
+    metadata:
+      labels:
+        app: tickets-mongo    
+    spec:
+      containers: 
+        - name: tickets-mongo  #this will be container name that contains image with name mongo
+          image: mongo   #officially hosted image on docker hub, we are directly importing this image from the docker file
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tickets-mongo-srv  #this is service name
+spec:
+  selector:
+    app: tickets-mongo   #which pod to give access to (find a pod with label of app:tickets-mongo)
+  ports:
+    - name: db #just normal name, not much usefull
+      protocol: TCP 
+      port: 27017   #by default mongo db access traffic on 27017, mentioned on the documents
+      targetPort: 27017
