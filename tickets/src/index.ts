@@ -4,7 +4,8 @@ import { json } from "body-parser";
 import mongoose from "mongoose";
 import cookieSession from "cookie-session";
 
-import { errorHandler } from "@kkticketing01/common";
+import { errorHandler , currentUser} from "@kkticketing01/common";
+import { createTicketRouter } from "./routes/new";
 const app = express();
 app.set("trust proxy", true);
 app.use(json());
@@ -15,6 +16,9 @@ app.use(
   })
 );
 
+app.use(currentUser)
+
+app.use(createTicketRouter)
 
 app.use(errorHandler); //this middleware applicable for each route
 

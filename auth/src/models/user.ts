@@ -7,12 +7,12 @@ interface UserAttrs {
   password: string;
 }
 
-//interface to describe the user Model
+//interface to describe the user Model(entire collection of data)
 interface UserModel extends mongoose.Model<UserDoc> {
   build(attr: UserAttrs): UserDoc;
 }
 
-// interface that describes the properties thsat user document returns
+// interface that describes the properties that user document(one single record) returns
 interface UserDoc extends mongoose.Document {
   email: string;
   password: string;
@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema(
     },
   }
 );
-// everytime this pre hook will gets calles by mongoose
+// everytime this pre hook will gets called by mongoose
 userSchema.pre("save", async function (done) {
   if (this.isModified("password")) {
     const hashed = await Password.toHash(this.get("password"));
@@ -51,6 +51,7 @@ userSchema.pre("save", async function (done) {
   done();
 });
 
+//add some typechecking on the properties when create new record
 userSchema.statics.build = (attrs: UserAttrs) => {
   return new User(attrs);
 };
