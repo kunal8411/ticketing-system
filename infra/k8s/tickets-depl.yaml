@@ -15,7 +15,15 @@ spec:
       containers: 
         - name: tickets
           image: kunaljk/tickets       
-          env: 
+          env:
+            - name: NATS_CLUSTER_ID
+              value: ticketing 
+            - name: NATS_URL
+              value: 'https://nats-srv:4222'
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name  
             - name: MONGO_URI
               value: 'mongodb://tickets-mongo-srv:27017/tickets'
             - name: JWT_KEY #created this using $kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asfd
