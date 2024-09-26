@@ -44,6 +44,7 @@ ticketSchema.statics.build = (attrs: TicketAttrs) => {
 };
 
 ticketSchema.methods.isReserved = async function () {
+  //wherever we used this like ticket.isReserverd() so THIS will refer to that ticket object
   const existingOrder = await Order.findOne({
     ticket: this,
     status: {
