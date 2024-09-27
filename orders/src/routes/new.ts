@@ -10,6 +10,8 @@ import {
 import { body, validationResult } from "express-validator";
 import { Ticket } from "../../models/Ticket";
 import { Order } from "../../models/Order";
+import { OrderCreatedPublisher } from "../events/publishers/OrderCreatedPublisher";
+import { natsWrapper } from "../NatsWrapper";
 const router = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 15 * 60;
 router.post(
@@ -58,10 +60,20 @@ router.post(
 
     await order.save();
 
+    new OrderCreatedPublisher(natsWrapper.client).publish({
+      id: order.id,
+      status: order.status,
+      userId: order.userId,
+      expiresAt: order.expiresAt.toISOString(), //toISOString will give UTC time format
+      ticket: {
+        id: ticket.id,
+        price: ticket.price,
+      },
+    });
+
     return res.status(201).send(order);
 
     //publish event that order is created
-
   }
 );
 

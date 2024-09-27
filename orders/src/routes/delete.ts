@@ -6,6 +6,8 @@ import {
   OrderStatusEnum,
 } from '@kkticketing01/common';
 import { Order } from '../../models/Order';
+import { OrderCancelledPublisher } from '../events/publishers/OrderCancelledPublisher';
+import { natsWrapper } from '../NatsWrapper';
 // import { Order, OrderStatusEnum } from '../models/Order';
 
 const router = express.Router();
@@ -26,6 +28,13 @@ router.delete(
 
     order.status = OrderStatusEnum.Cancelled;
     await order.save();
+
+    new OrderCancelledPublisher(natsWrapper.client).publish({
+      id: order.id,
+      ticket: {
+        id: order.ticket.id,
+      },
+    });
 
     return res.status(204).send(order);
   }
