@@ -4,7 +4,7 @@ import {
   NotFoundError,
   NotAuthirizedError,
 } from '@kkticketing01/common';
-import { Order } from '../../models/Order';
+import { Order } from '../models/Order';
 
 const router = express.Router();
 

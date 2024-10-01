@@ -8,8 +8,8 @@ import {
   requireAuth,
 } from "@kkticketing01/common";
 import { body, validationResult } from "express-validator";
-import { Ticket } from "../../models/Ticket";
-import { Order } from "../../models/Order";
+import { Ticket } from "../models/Ticket";
+import { Order } from "../models/Order";
 import { OrderCreatedPublisher } from "../events/publishers/OrderCreatedPublisher";
 import { natsWrapper } from "../NatsWrapper";
 const router = express.Router();
@@ -62,6 +62,7 @@ router.post(
 
     new OrderCreatedPublisher(natsWrapper.client).publish({
       id: order.id,
+      version:order.version,
       status: order.status,
       userId: order.userId,
       expiresAt: order.expiresAt.toISOString(), //toISOString will give UTC time format

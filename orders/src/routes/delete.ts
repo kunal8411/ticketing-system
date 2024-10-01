@@ -5,7 +5,7 @@ import {
   NotAuthirizedError,
   OrderStatusEnum,
 } from '@kkticketing01/common';
-import { Order } from '../../models/Order';
+import { Order } from '../models/Order';
 import { OrderCancelledPublisher } from '../events/publishers/OrderCancelledPublisher';
 import { natsWrapper } from '../NatsWrapper';
 // import { Order, OrderStatusEnum } from '../models/Order';
@@ -31,8 +31,10 @@ router.delete(
 
     new OrderCancelledPublisher(natsWrapper.client).publish({
       id: order.id,
+      version: order.version,
       ticket: {
         id: order.ticket.id,
+       
       },
     });
 
