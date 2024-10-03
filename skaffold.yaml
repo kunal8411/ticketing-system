@@ -41,4 +41,12 @@ build:
       sync:
         manual:
           - dest: 'src/**/*.ts' 
-            src: .        
+            src: .   
+    - image: kunaljk/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: 'src/**/*.ts' 
+            src: .                 
