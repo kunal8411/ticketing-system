@@ -49,4 +49,12 @@ build:
       sync:
         manual:
           - dest: 'src/**/*.ts' 
-            src: .                 
+            src: .      
+    - image: kunaljk/payments
+      context: payments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: 'src/**/*.ts' 
+            src: .            
