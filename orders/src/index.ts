@@ -13,6 +13,7 @@ import { natsWrapper } from "./NatsWrapper";
 import { TicketCreatedListener } from "./events/listeners/TicketCreatedListener";
 import { TicketUpdatedListener } from "./events/listeners/TicketUpdatedListener";
 import { ExpirationCompleteListener } from "./events/listeners/ExpirationCompleteListener";
+import { PaymentCreatedListener } from "./events/listeners/PaymentCreatedListener";
 const app = express();
 app.set("trust proxy", true);
 app.use(json());
@@ -69,6 +70,7 @@ const start = async () => {
     new TicketCreatedListener(natsWrapper.client).listen();
     new TicketUpdatedListener(natsWrapper.client).listen();
     new ExpirationCompleteListener(natsWrapper.client).listen();
+    new PaymentCreatedListener(natsWrapper.client).listen();
 
     // tickets-mongo-srv is the service to connect to the tickets-mongo-depl deployment and then to docker file of mongo
     await mongoose.connect(process.env.MONGO_URI);
