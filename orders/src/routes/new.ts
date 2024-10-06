@@ -32,6 +32,7 @@ router.post(
     }
 
     const { ticketId } = req.body;
+    console.log("ticketIdticketId",ticketId)
     // find the ticket in db
     const ticket = await Ticket.findById(ticketId);
 

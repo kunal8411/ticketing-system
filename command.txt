@@ -1,0 +1,24 @@
+// If any issues in the common module
+// run this script
+// npm install @kkticketing01/common@latest
+
+
+
+// Navigate to dynamic route 
+
+// Router.push("/orders/[orderId]", `/orders/${order.id}`),
+
+
+
+// <Link href="/tickets/[ticketId]" as={`/tickets/${ticket.id}`}>
+//             View
+//           </Link>
+
+
+STRIPE   
+
+Payment information
+4242424242424242 
+CVV any 3 digits 
+
+Date: any future date

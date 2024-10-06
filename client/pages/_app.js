@@ -6,20 +6,27 @@ const AppComponent = ({ Component, pageProps, currentUser }) => {
   return (
     <div>
       <Header currentUser={currentUser} />
-      <Component {...pageProps} />
+      <div className="container">
+        <Component currentUser={currentUser} {...pageProps} />
+      </div>
     </div>
   );
 };
 
 AppComponent.getInitialProps = async (appContext) => {
-//   console.log(appContext);
+  //   console.log(appContext);
   const client = buildClient(appContext.ctx);
   const { data } = await client.get("/api/users/currentuser");
 
   let pageProps = {};
+  // if child component has the getInitialProps method then called it
   //pass component getInitialProps to other components, else this will not called for other components, but if this is defined in the component then only pass
   if (appContext.Component.getInitialProps) {
-    pageProps = await appContext.Component.getInitialProps(appContext.ctx);
+    pageProps = await appContext.Component.getInitialProps(
+      appContext.ctx,
+      client,
+      data.currentUser
+    );
   }
 
   return {

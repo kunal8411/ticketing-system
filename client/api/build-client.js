@@ -12,7 +12,7 @@ export default ({ req }) => {
   } else {
     // we are on the browser
 
-    // getInitialProps called from the CLIENT SIDE , when switching from one page to another
+    // getInitialProps called from the CLIENT SIDE also, when switching from one page to another
     return axios.create({
       baseURL: "/",
     });

@@ -21,7 +21,7 @@ export class ExpirationCompleteListener extends ListenerAbstract<ExpirationCompl
 
     if (!order) {
       throw new Error("Order not found");
-    }
+    } 
 
     //in between time if payment service send event that payment:created then we change status to complete of the order. so we need to check if payment already complete then acknowledge the event
     if (order.status === OrderStatusEnum.Complete) {
