@@ -23,6 +23,8 @@ app.use(
 //   throw new NotFoundError();
 // });
 
+console.log("TESING GITHUB ACTION")
+
 app.use(currentUserRouter);
 app.use(signInRouter);
 app.use(signOutRouter);
